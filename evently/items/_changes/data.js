@@ -1,5 +1,7 @@
 function(data) {
     // $.log(data)
+    var app = $$(this).app;
+    var md5 = app.require("vendor/couchapp/lib/md5");
     var ownerPos = {
         'comment-added': 'author',
         'change-merged': 'submitter',
@@ -18,6 +20,7 @@ function(data) {
         } else if(d.refUpdate) {
             d.project = d.refUpdate.project;
         }
+        d.actor.img = 'http://www.gravatar.com/avatar/' + md5.hex(d.actor.email) + '.jpg?s=32';
         return d;
     });
 

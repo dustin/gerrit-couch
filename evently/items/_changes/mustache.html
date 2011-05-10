@@ -1,0 +1,13 @@
+<h3>Recent Activity</h3>
+<ul>
+  {{#items}}
+    <li>
+      {{#actor}}<span class="actor" title="{{name}} &lt;{{email}}&gt;">{{short_name}}</span>{{/actor}}
+      -
+      <span class="type {{type}}">{{type}}</span> on
+      <a href="http://review.membase.org/#q,status:open+project:{{project}},n,z">{{project}}</a>
+      
+      {{#change}} - <a href="{{url}}">{{subject}}</a>{{/change}}
+    </li>
+  {{/items}}
+</ul>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gerrit Activity</title>
+    <link rel="stylesheet" href="style/main.css" type="text/css">
+  </head>
+  <body>
+    <h1>Gerrit Activity</h1>
+
+    <div id="items"></div>
+
+    <div id="sidebar">
+      <p>
+        If anyone's wondering about what we're up to, look here.
+      </p>
+      <p>
+        This data comes from our
+        <a href="http://review.membase.org/">code review</a> site.
+      </p>
+    </div>
+  </body>
+  <script src="vendor/couchapp/loader.js"></script>
+  <script type="text/javascript" charset="utf-8">
+    $.couch.app(function(app) {
+      $.evently.connect("#account","#profile", ["loggedIn","loggedOut"]);
+      $("#items").evently("items", app);
+    });
+  </script>
+</html>

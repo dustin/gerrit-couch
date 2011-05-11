@@ -39,6 +39,9 @@ function(data) {
                     d.project + '+branch:' + d.refUpdate.refName + ',n,z'
             };
         }
+        if (d.abandoner && d.reason) {
+            d.extra.comment = d.reason;
+        }
         return d;
     });
 

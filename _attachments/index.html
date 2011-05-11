@@ -15,12 +15,23 @@
         This data comes from our
         <a href="http://review.membase.org/">code review</a> site.
       </p>
+      <p>
+        <form id="prefs" method="post" action="#">
+          Show details? <input id="should_show_details" type="checkbox" />
+        </form>
+      </p>
     </div>
   </body>
   <script src="vendor/couchapp/loader.js"></script>
   <script type="text/javascript" charset="utf-8">
     $.couch.app(function(app) {
       $("#items").evently("items", app);
+      $("#should_show_details").click(function() {
+        var isChecked = $('#should_show_details:checked').val();
+        var newval = isChecked ? "block" : "none";
+        $('.extra-detail').css('display', newval);
+        return true;
+      });
     });
   </script>
 </html>

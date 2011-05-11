@@ -51,3 +51,10 @@ h1 {
 .change-abandoned {
     color: red;
 }
+
+.extra-detail {
+    display: none;
+    font-size: x-small;
+    text-align: right;
+    color: #aaa;
+}

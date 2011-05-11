@@ -2,6 +2,11 @@ function(data) {
     // $.log(data)
     var app = $$(this).app;
     var md5 = app.require("vendor/couchapp/lib/md5");
+
+    function gravatarURL(email, size) {
+        return 'http://www.gravatar.com/avatar/' + md5.hex(email) + '.jpg?s=' + size;
+    }
+
     var ownerPos = {
         'comment-added': 'author',
         'change-merged': 'submitter',
@@ -20,7 +25,7 @@ function(data) {
         } else if(d.refUpdate) {
             d.project = d.refUpdate.project;
         }
-        d.actor.img = 'http://www.gravatar.com/avatar/' + md5.hex(d.actor.email) + '.jpg?s=32';
+        d.actor.img = gravatarURL(d.actor.email, 32);
         if (d.change) {
             var commentParts = [];
             for (var i = 0; d.approvals && i < d.approvals.length; ++i) {
@@ -33,6 +38,9 @@ function(data) {
                 commentParts.push(d.comment);
             }
             d.extra = {
+                'img': {'url': gravatarURL(d.change.owner.email, 20),
+                        'alt': d.change.owner.email,
+                        'title': d.change.owner.name},
                 'comment': commentParts.join("\n"),
                 'link': d.change.url,
                 'linktext': d.change.subject

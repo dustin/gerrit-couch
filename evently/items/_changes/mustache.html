@@ -14,7 +14,9 @@
       <a href="http://review.membase.org/#q,status:open+project:{{project}},n,z">{{project}}</a>
       
       {{#extra}}
-      - <a href="{{link}}" title="{{comment}}">{{linktext}}</a>
+      - {{#img}}<img width="20" height="20" src="{{url}}" alt="{{alt}}"
+                     title="{{title}}"/>{{/img}}
+      <a href="{{link}}" title="{{comment}}">{{linktext}}</a>
       {{/extra}}
     </li>
   {{/items}}

@@ -57,3 +57,7 @@ h1 {
     text-align: right;
     color: #aaa;
 }
+
+#mergeattempts {
+    display: none;
+}

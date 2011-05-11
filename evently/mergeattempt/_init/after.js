@@ -1,6 +1,5 @@
 function(me, args) {
     var app = $$(this).app;
-    // var path = app.require("vendor/couchapp/lib/path").init(app.req);
 
     function showBar(named, data, total) {
         var vals = [];
@@ -16,7 +15,7 @@ function(me, args) {
 
         var barWidth = 40;
         var w = (barWidth + 5) * labels.length;
-        var h = 200;
+        var h = 150;
 
         var vis = new pv.Panel()
             .canvas(named)

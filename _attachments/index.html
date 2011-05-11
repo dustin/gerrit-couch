@@ -20,13 +20,15 @@
           Show details? <input id="should_show_details" type="checkbox" />
         </form>
       </p>
-      <h2>
-        Patch by Merge Attempt
-      </h2>
-      <p>
-        How many tries does it take us to get a changeset right?
-      </p>
-      <div id="mergeattempt"></div>
+      <div id="mergeattempts">
+        <h2>
+          Patch by Merge Attempt
+        </h2>
+        <p>
+          How many tries does it take us to get a changeset right?
+        </p>
+        <div id="mergeattempt"></div>
+      </div>
     </div>
   </body>
   <script src="vendor/couchapp/loader.js"></script>
@@ -41,7 +43,6 @@
         return true;
       }
       $("#should_show_details").click(setDetailVisibilityState);
-      $("#mergeattempt").evently("mergeattempt", app);
     });
   </script>
 </html>

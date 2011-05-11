@@ -7,24 +7,8 @@ function(data) {
         return 'http://www.gravatar.com/avatar/' + md5.hex(email) + '.jpg?s=' + size;
     }
 
-    var ownerPos = {
-        'comment-added': 'author',
-        'change-merged': 'submitter',
-        'patchset-created': 'uploader',
-        'change-abandoned': 'abandoner',
-        'change-restored': 'restorer',
-        'ref-updated': 'submitter'
-    };
-
     var items = data.rows.map(function(r) {
         var d = r.value;
-        d.actor = d[ownerPos[d.type]];
-        d.actor.short_name = d.actor.name.split(' ')[0];
-        if (d.change) {
-            d.project = d.change.project;
-        } else if(d.refUpdate) {
-            d.project = d.refUpdate.project;
-        }
         d.actor.img = gravatarURL(d.actor.email, 32);
         if (d.change) {
             var commentParts = [];

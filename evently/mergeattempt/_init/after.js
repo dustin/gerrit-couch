@@ -66,7 +66,7 @@ function(me, args) {
 
         vis.add(pv.Rule)
             .bottom(15)
-            .left(24)
+            .left(5)
             .right(6);
 
         vis.render();

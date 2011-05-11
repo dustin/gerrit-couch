@@ -21,6 +21,32 @@ function(data) {
             d.project = d.refUpdate.project;
         }
         d.actor.img = 'http://www.gravatar.com/avatar/' + md5.hex(d.actor.email) + '.jpg?s=32';
+        if (d.change) {
+            var commentParts = [];
+            for (var i = 0; d.approvals && i < d.approvals.length; ++i) {
+                var a = d.approvals[i];
+                if (a.value != '0') {
+                    commentParts.push(a.description + ": " + a.value);
+                }
+            }
+            if (d.comment != '') {
+                commentParts.push(d.comment);
+            }
+            d.extra = {
+                'comment': commentParts.join("\n"),
+                'link': d.change.url,
+                'linktext': d.change.subject
+            };
+            d.typetitle = commentParts.join("\n");
+        }
+
+        if (d.refUpdate) {
+            d.extra = {
+                linktext: 'branch "' + d.refUpdate.refName + '" was updated',
+                link: 'http://review.membase.org/#q,status:open+project:' +
+                    d.project + '+branch:' + d.refUpdate.refName + ',n,z'
+            };
+        }
         return d;
     });
 

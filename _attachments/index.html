@@ -20,9 +20,17 @@
           Show details? <input id="should_show_details" type="checkbox" />
         </form>
       </p>
+      <h2>
+        Patch by Merge Attempt
+      </h2>
+      <p>
+        How many tries does it take us to get a changeset right?
+      </p>
+      <div id="mergeattempt"></div>
     </div>
   </body>
   <script src="vendor/couchapp/loader.js"></script>
+  <script src="js/protovis-r3.2.js"></script>
   <script type="text/javascript" charset="utf-8">
     $.couch.app(function(app) {
       $("#items").evently("items", app);
@@ -33,6 +41,7 @@
         return true;
       }
       $("#should_show_details").click(setDetailVisibilityState);
+      $("#mergeattempt").evently("mergeattempt", app);
     });
   </script>
 </html>

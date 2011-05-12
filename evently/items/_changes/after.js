@@ -5,4 +5,6 @@ function(me, args) {
     var app = $$(this).app;
     $("#mergeattempt").evently("mergeattempt", app);
     $("#mergeattempts").show();
+    $("#activitychart").evently("activity", app);
+    $("#activity").show();
 }

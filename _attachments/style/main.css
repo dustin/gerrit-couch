@@ -40,16 +40,28 @@ h1 {
     font-family: fixed;
 }
 
-.comment-added, .change-merged, .ref-updated {
-    color: green;
+.legend {
+    font-size: xx-small;
 }
 
-.patchset-created, .change-restored {
-    color: purple;
+.ref-updated {
+    color: #ECD078;
+}
+
+.change-merged {
+    color: #D95B43;
+}
+
+.comment-added {
+    color: #C02942;
+}
+
+.patchset-created {
+    color: #542437;
 }
 
 .change-abandoned {
-    color: red;
+    color: #53777A;
 }
 
 .extra-detail {
@@ -61,3 +73,8 @@ h1 {
 #mergeattempts {
     display: none;
 }
+
+#activity {
+    display: none;
+}
+

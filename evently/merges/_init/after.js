@@ -76,6 +76,7 @@ function(me, args) {
         .event("mouseout", function(d, p) {
             $("#merges .legend .proj-" + p).removeClass("highlit");
         })
+        .cursor("pointer")
         .fillStyle(function(d, p) { return color(p); })
         .strokeStyle(function() { return this.fillStyle().alpha(.5);});
 

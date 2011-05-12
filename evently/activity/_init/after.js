@@ -73,6 +73,7 @@ function(me, args) {
         .event("mouseout", function(d, p) {
             $("#activity .legend ." + p).removeClass("highlit");
         })
+        .cursor("pointer")
         .fillStyle(function(d, p) { return colors[p];})
         .strokeStyle(function() { return this.fillStyle().alpha(.5);});
 

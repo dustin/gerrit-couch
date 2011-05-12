@@ -54,6 +54,10 @@
         return true;
       }
       $("#should_show_details").click(setDetailVisibilityState);
+      $(window).resize(function() {
+        $("#mergeattempt").evently("mergeattempt", app);
+        $("#activitychart").evently("activity", app);
+      });
     });
   </script>
 </html>

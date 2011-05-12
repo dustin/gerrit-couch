@@ -70,6 +70,12 @@ function(me, args) {
             var rv = (dateMap[d] || [0, {}])[1][p] || 0;
             return y(rv);})
       .layer.add(pv.Area)
+        .event("mouseover", function(d, p) {
+            $("#merges .legend .proj-" + p).addClass("highlit");
+        })
+        .event("mouseout", function(d, p) {
+            $("#merges .legend .proj-" + p).removeClass("highlit");
+        })
         .fillStyle(function(d, p) { return color(p); })
         .strokeStyle(function() { return this.fillStyle().alpha(.5);});
 
@@ -90,7 +96,7 @@ function(me, args) {
     $("#merges .legend").empty();
     projects.forEach(function(k) {
         var val = mostRecent[k] || 0;
-        $('#merges .legend').append("<span style='color: "
+        $('#merges .legend').append("<span class='proj-" + k + "' style='color: "
                                     + color(k).color + "'>" + k + "(" + val+ ")</span> ");
     });
 }

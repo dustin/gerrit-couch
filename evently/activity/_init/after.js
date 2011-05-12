@@ -67,6 +67,12 @@ function(me, args) {
         .x(function(d) { return x(dateMap[d.key]); })
         .y(function(d, p) { return y(d.value[p] || 0);})
       .layer.add(pv.Area)
+        .event("mouseover", function(d, p) {
+            $("#activity .legend ." + p).addClass("highlit");
+        })
+        .event("mouseout", function(d, p) {
+            $("#activity .legend ." + p).removeClass("highlit");
+        })
         .fillStyle(function(d, p) { return colors[p];})
         .strokeStyle(function() { return this.fillStyle().alpha(.5);});
 

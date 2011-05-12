@@ -73,3 +73,8 @@ h1 {
 #mergeattempts, #activity, #merges {
     display: none;
 }
+
+.legend .highlit {
+    font-size: large;
+    font-face: bold;
+}

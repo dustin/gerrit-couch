@@ -70,11 +70,6 @@ h1 {
     color: #aaa;
 }
 
-#mergeattempts {
+#mergeattempts, #activity, #merges {
     display: none;
 }
-
-#activity {
-    display: none;
-}
-

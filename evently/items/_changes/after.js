@@ -7,4 +7,6 @@ function(me, args) {
     $("#mergeattempts").show();
     $("#activitychart").evently("activity", app);
     $("#activity").show();
+    $("#mergechart").evently("merges", app);
+    $("#merges").show();
 }

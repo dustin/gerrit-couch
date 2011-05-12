@@ -13,8 +13,8 @@ function(me, args) {
                 }
             }
 
-        var barWidth = 40;
-        var w = (barWidth + 5) * labels.length;
+        var w = Math.max(150, $('#' + named).width() - 40);
+        var barWidth = Math.max(20, Math.min(40, (w / labels.length) + 5));
         var h = 150;
 
         var vis = new pv.Panel()

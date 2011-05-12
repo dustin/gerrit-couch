@@ -32,7 +32,7 @@ function(me, args) {
     }
 
     /* Sizing and scales. */
-    var w = 300,
+    var w = $('#activity').width() - 40,
         h = 150,
         x = pv.Scale.linear(0, me.rows.length - 1).range(0, w),
         y = pv.Scale.linear(0, ymax).range(0, h);

@@ -61,7 +61,7 @@ h1 {
     color: #C02942;
 }
 
-.patchset-created {
+.patchset-created, .change-restored {
     color: #542437;
 }
 

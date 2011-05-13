@@ -2,33 +2,22 @@ function(me, args) {
     var app = $$(this).app;
 
     var projects = [];
+    var dateMap = {};
+    var ymax = 0;
     me.rows.forEach((function(r) {
-        if (projects.indexOf(r.key[1]) == -1) {
-            projects.push(r.key[1]);
+        var sum = 0;
+        dateMap[r.key[1]] = r.value;
+        for (var k in r.value) {
+            if (projects.indexOf(k) == -1) {
+                projects.push(k);
+            }
+            sum += r.value[k];
         }
+        ymax = Math.max(sum, ymax);
     }));
     projects.sort();
 
-    var dateMap = {};
-    var dateList = [];
-    for (var i = 0; i < me.rows.length; ++i) {
-        var d = me.rows[i].key[0];
-        if (!dateMap[d]) {
-            dateList.push(d);
-        }
-        var ob = (dateMap[d] || [undefined, {}])[1];
-        ob[me.rows[i].key[1]] = me.rows[i].value;
-        dateMap[d] = [i, ob];
-    }
-
-    var ymax = 0;
-    for (var d in dateMap) {
-        var sum = 0;
-        for (var k in dateMap[d][1]) {
-            sum += dateMap[d][1][k];
-        }
-        ymax = Math.max(sum, ymax);
-    }
+    var dateList = me.rows.map(function(r) { return r.key[1]; });
 
     /* Sizing and scales. */
     var w = $('#merges').width() - 40,
@@ -67,7 +56,7 @@ function(me, args) {
         .values(dateList)
         .x(function(d) { return x(dateList.indexOf(d));})
         .y(function(d, p) {
-            var rv = (dateMap[d] || [0, {}])[1][p] || 0;
+            var rv = (dateMap[d] || {})[p] || 0;
             return y(rv);})
       .layer.add(pv.Area)
         .event("mouseover", function(d, p) {
@@ -93,7 +82,7 @@ function(me, args) {
     vis.render();
 
         // Update the legend
-    var mostRecent = dateMap[dateList[dateList.length - 1]][1];
+    var mostRecent = dateMap[dateList[dateList.length - 1]];
     $("#merges .legend").empty();
     projects.forEach(function(k) {
         var val = mostRecent[k] || 0;

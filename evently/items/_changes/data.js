@@ -42,6 +42,7 @@ function(data) {
         if (d.abandoner && d.reason) {
             d.extra.comment = d.reason;
         }
+        d.when = d.ts;
         return d;
     });
 

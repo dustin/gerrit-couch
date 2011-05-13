@@ -9,4 +9,5 @@ function(me, args) {
     $("#activity").show();
     $("#mergechart").evently("merges", app);
     $("#merges").show();
+    updateTimestamps(app);
 }

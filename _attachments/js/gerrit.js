@@ -106,13 +106,13 @@ function showBarChart(named, data, total) {
     vis.render();
 }
 
-function showSteamGraph(canv, legend_prefix, rows) {
+function showSteamGraph(canv, legend_prefix, rows, color) {
     var projects = [];
     var dateMap = {};
     var ymax = 0;
     rows.forEach((function(r) {
         var sum = 0;
-        dateMap[r.key[1]] = r.value;
+        dateMap[r.key[r.key.length-1]] = r.value;
         for (var k in r.value) {
             if (projects.indexOf(k) == -1) {
                 projects.push(k);
@@ -123,14 +123,17 @@ function showSteamGraph(canv, legend_prefix, rows) {
     }));
     projects.sort();
 
-    var dateList = rows.map(function(r) { return r.key[1]; });
+    if (!color) {
+        color = pv.Colors.category19().by(function(d) { return d;});
+    }
+
+    var dateList = rows.map(function(r) { return r.key[r.key.length-1]; });
 
     /* Sizing and scales. */
     var w = $('#merges').width() - 40,
         h = 150,
         x = pv.Scale.linear(0, dateList.length - 1).range(0, w),
-        y = pv.Scale.linear(0, ymax).range(0, h),
-        color = pv.Colors.category19().by(function(d) { return d;});
+        y = pv.Scale.linear(0, ymax).range(0, h);
 
     /* The root panel. */
     var vis = new pv.Panel()

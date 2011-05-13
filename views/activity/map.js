@@ -1,5 +1,11 @@
 function(doc) {
-    var v = {};
-    v[doc.type] = 1;
-    emit(doc.ts.split('T')[0], v);
-}
+    if (doc.ts) {
+        var ob = {};
+        ob[doc.type] = 1;
+        var branch = '';
+        if (doc.change) {
+            branch = doc.change.branch;
+        }
+        emit([doc.ts.split('T')[0], doc.type, doc.project, branch], ob);
+    }
+};

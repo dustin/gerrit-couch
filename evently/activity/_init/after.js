@@ -28,7 +28,7 @@ function(me, args) {
 
     var dateMap = {};
     for (var i = 0; i < me.rows.length; ++i) {
-        dateMap[me.rows[i].key] = i;
+        dateMap[me.rows[i].key[0]] = i;
     }
 
     /* Sizing and scales. */
@@ -56,7 +56,7 @@ function(me, args) {
       .anchor("bottom").add(pv.Label)
         .textStyle("#aaa")
         .text(function(d) {
-            var a = d.key.split('-');
+            var a = d.key[0].split('-');
             return parseInt(a[1]) + '-' + parseInt(a[2]);
         });
 
@@ -64,7 +64,7 @@ function(me, args) {
         .offset("wiggle")
         .layers(types)
         .values(me.rows)
-        .x(function(d) { return x(dateMap[d.key]); })
+        .x(function(d) { return x(dateMap[d.key[0]]); })
         .y(function(d, p) { return y(d.value[p] || 0);})
       .layer.add(pv.Area)
         .event("mouseover", function(d, p) {

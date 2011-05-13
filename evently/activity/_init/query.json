@@ -1,5 +1,6 @@
 {
     "view": "activity",
     "group": "true",
-    "reduce": "true"
+    "reduce": "true",
+    "group_level": 1
 }

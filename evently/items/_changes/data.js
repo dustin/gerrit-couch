@@ -8,7 +8,7 @@ function(data) {
     }
 
     var items = data.rows.map(function(r) {
-        var d = r.value;
+        var d = r.doc;
         d.actor.img = gravatarURL(d.actor.email, 32);
         if (d.change) {
             var commentParts = [];

@@ -194,8 +194,12 @@ function showSteamGraph(canv, legend_prefix, rows, color) {
     $(legend_prefix).empty();
     projects.forEach(function(k) {
         var val = mostRecent[k] || 0;
-        $(legend_prefix).append("<span class='" + k + "' style='color: "
-                                + color(k).color + "'>" + k + "(" + val+ ")</span> ");
+        var style = "";
+        if (color(k).color) {
+            style = "style='color: " + color(k).color + "'";
+        }
+        $(legend_prefix).append("<span class='" + k + "' " + style + ">" +
+                                k + "(" + val + ")</span> ");
     });
 }
 

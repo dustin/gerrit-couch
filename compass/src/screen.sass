@@ -1,0 +1,65 @@
+@import "compass/reset"
+@import "blueprint"
+
+body
+  +blueprint
+  font-family: "Helvetica"
+
+#items
+  background: #eef
+  width: 65%
+  float: left
+
+  ul
+    list-style: none
+    text-indent: 0
+    padding: 0
+    margin: 0
+
+  li
+    border: 4px solid #f5f5ff
+    background: white
+    margin: 4px 0
+
+  .timestamp
+    font-size: small
+    color: #ccc
+
+  .extra-detail
+    font-size: x-small
+    text-align: right
+    color: #aaa
+
+#sidebar
+  float: right
+  width: 30%
+
+  #mergeattempts, #activity, #merges
+    display: none
+    margin-bottom: 5px
+
+    .legend
+      font-size: xx-small
+
+      .highlit
+        font-size: large
+        font-face: bold
+
+#footer
+  clear: both
+  font-size: small
+
+.ref-updated
+  color: #ECD078
+
+.change-merged
+  color: #D95B43
+
+.comment-added
+  color: #C02942
+
+.patchset-created, .change-restored
+  color: #542437
+
+.change-abandoned
+  color: #53777A

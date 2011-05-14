@@ -36,6 +36,11 @@ h1 {
   margin: 0;
 }
 
+#footer {
+    clear: both;
+    font-size: small;
+}
+
 .timestamp {
     font-size: small;
     color: #ccc;

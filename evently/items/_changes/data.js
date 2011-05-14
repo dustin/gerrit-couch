@@ -4,7 +4,8 @@ function(data) {
     var md5 = app.require("vendor/couchapp/lib/md5");
 
     function gravatarURL(email, size) {
-        return 'http://www.gravatar.com/avatar/' + md5.hex(email) + '.jpg?s=' + size;
+        return 'http://www.gravatar.com/avatar/' + md5.hex(email) +
+            '.jpg?s=' + size + "&d=retro";
     }
 
     var items = data.rows.map(function(r) {

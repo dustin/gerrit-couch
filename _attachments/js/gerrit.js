@@ -168,10 +168,10 @@ function showSteamGraph(canv, legend_prefix, rows, color) {
             return y(rv);})
         .layer.add(pv.Area)
         .event("mouseover", function(d, p) {
-            $(legend_prefix + p).addClass("highlit");
+            $(legend_prefix + " ." + p).addClass("highlit");
         })
         .event("mouseout", function(d, p) {
-            $(legend_prefix + p).removeClass("highlit");
+            $(legend_prefix + " ." + p).removeClass("highlit");
         })
         .cursor("pointer")
         .fillStyle(function(d, p) { return color(p); })

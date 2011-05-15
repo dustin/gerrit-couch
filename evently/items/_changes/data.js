@@ -30,7 +30,6 @@ function(data) {
                 'link': d.change.url,
                 'linktext': d.change.subject
             };
-            d.typetitle = commentParts.join("\n");
         }
 
         if (d.refUpdate) {

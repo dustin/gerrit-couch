@@ -8,14 +8,12 @@
       {{/actor}}
       &nbsp;
 
-      <span class="type {{type}}" title="{{typetitle}}">{{type}}
+      <span class="type {{type}}">{{type}}
         {{#typeExtra}} (<a href="{{link}}">{{name}}</a>){{/typeExtra}}
       </span> on
       <a href="http://review.membase.org/#q,status:open+project:{{project}},n,z">{{project}}</a>
-      
       {{#extra}}
-      - {{#img}}<img width="20" height="20" src="{{url}}" alt="{{alt}}"
-                     title="{{title}}"/>{{/img}}
+      - {{#img}}<img width="20" height="20" src="{{url}}" alt="{{alt}}" />{{/img}}
       <a href="{{link}}" title="{{comment}}">{{linktext}}</a>
       {{/extra}}
       <span class="timestamp" title="{{when}}">{{when}}</span>

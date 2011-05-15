@@ -10,6 +10,11 @@
 
       <span class="type {{type}}">{{type}}
         {{#typeExtra}} (<a href="{{link}}">{{name}}</a>){{/typeExtra}}
+        {{#has_approvals}}
+        <div class="approvals">
+          {{#approvals_h}}{{{.}}}{{/approvals_h}}
+        </div>
+        {{/has_approvals}}
       </span> on
       <a href="http://review.membase.org/#q,status:open+project:{{project}},n,z">{{project}}</a>
       {{#extra}}

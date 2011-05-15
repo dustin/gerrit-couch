@@ -46,7 +46,6 @@
   <script type="text/javascript" charset="utf-8">
     $.couch.app(function(app) {
       $("#items").evently("items", app);
-      $("#should_show_details").click(setDetailVisibilityState);
       $(window).resize(function() {
         $("#mergeattempt").evently("mergeattempt", app);
         $("#activitychart").evently("activity", app);

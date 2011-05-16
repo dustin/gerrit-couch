@@ -44,7 +44,7 @@ function(data) {
             d.approvals_h = approvals.sort(function(a, b) {
                 return (a.key > b.key) ? -1 : 1;
             });
-            d.has_approvals = approvals.length > 1;
+            d.has_approvals = approvals.length > 0;
         }
 
         if (d.refUpdate) {

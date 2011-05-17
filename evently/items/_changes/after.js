@@ -3,7 +3,6 @@ function(me, args) {
     $("#mergeattempts").show();
     $("#activity").show();
     $("#merges").show();
-    $("#contributors").show();
     updateTimestamps(app);
     updateViews(app);
 }

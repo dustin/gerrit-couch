@@ -219,5 +219,4 @@ function updateViews(app) {
     $("#mergeattempt").evently("mergeattempt", app);
     $("#activitychart").evently("activity", app);
     $("#mergechart").evently("merges", app);
-    $("#contributors").evently("contributions", app);
 }

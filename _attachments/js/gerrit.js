@@ -147,14 +147,14 @@ function showStreamGraph(canv, legend_prefix, rows, color) {
 
     /* X-axis and ticks. */
     vis.add(pv.Rule)
-        .data(dateList)
+        .data(x.ticks())
         .bottom(-5)
         .height(0)
-        .left(function() { return x(this.index); })
+        .left(function(n) { return x(n); })
         .anchor("bottom").add(pv.Label)
         .textStyle("#aaa")
         .text(function(d) {
-            var a = d.split('-');
+            var a = dateList[d].split('-');
             return parseInt(a[1]) + '-' + parseInt(a[2]);
         });
 

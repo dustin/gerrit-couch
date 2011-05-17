@@ -106,7 +106,7 @@ function showBarChart(named, data, total) {
     vis.render();
 }
 
-function showSteamGraph(canv, legend_prefix, rows, color) {
+function showStreamGraph(canv, legend_prefix, rows, color) {
     var projects = [];
     var dateMap = {};
     var ymax = 0;

@@ -14,7 +14,7 @@ function(me, args) {
         colors[types[i]] = $('.' + types[i]).css('color');
     }
 
-    showSteamGraph('activitychart', '#activity .legend', me.rows,
-                   function(d) { return colors[d]; });
+    showStreamGraph('activitychart', '#activity .legend', me.rows,
+                    function(d) { return colors[d]; });
 
 }

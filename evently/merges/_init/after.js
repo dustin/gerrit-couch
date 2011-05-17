@@ -1,3 +1,3 @@
 function(me, args) {
-    showSteamGraph('mergechart', "#merges .legend", me.rows);
+    showStreamGraph('mergechart', "#merges .legend", me.rows);
 }

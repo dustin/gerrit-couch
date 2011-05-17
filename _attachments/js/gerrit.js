@@ -162,6 +162,7 @@ function showSteamGraph(canv, legend_prefix, rows, color) {
         .offset("wiggle")
         .layers(projects)
         .values(dateList)
+        .order("inside-out")
         .x(function(d) { return x(dateList.indexOf(d));})
         .y(function(d, p) {
             var rv = (dateMap[d] || {})[p] || 0;

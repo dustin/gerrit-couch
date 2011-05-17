@@ -42,7 +42,7 @@ function(data) {
                 'linktext': d.change.subject
             };
             d.approvals_h = approvals.sort(function(a, b) {
-                return (a.key > b.key) ? -1 : 1;
+                return (b.key > a.key) ? -1 : 1;
             });
             d.has_approvals = approvals.length > 0;
         }

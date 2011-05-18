@@ -106,6 +106,18 @@ function showBarChart(named, data, total) {
     vis.render();
 }
 
+var colorMemo = {};
+
+function projectColorizer() {
+    var def = pv.Colors.category19().by(function(d) {return d;});
+    return function(x) {
+        if (!colorMemo[x]) {
+            colorMemo[x] = def(x);
+        }
+        return colorMemo[x];
+    };
+}
+
 function showStreamGraph(canv, legend_prefix, rows, color) {
     var projects = [];
     var dateMap = {};
@@ -124,7 +136,7 @@ function showStreamGraph(canv, legend_prefix, rows, color) {
     projects.sort();
 
     if (!color) {
-        color = pv.Colors.category19().by(function(d) { return d;});
+        color = projectColorizer();
     }
 
     var dateList = rows.map(function(r) { return r.key[r.key.length-1]; });

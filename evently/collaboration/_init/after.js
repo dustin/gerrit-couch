@@ -34,7 +34,7 @@ function(me, args) {
     var w = $('#' + named).width();
     var h = w;
     var radius = pv.Scale.linear(0, collab_max).range(0, (w / 2));
-    var color = pv.Colors.category19().by(function(d) { return d;});
+    var color = projectColorizer();
     var s = pv.Scale.linear(0, collab_max).range(0, 20);
     var legend_prefix = '#collaboration .legend';
 
@@ -48,7 +48,7 @@ function(me, args) {
         .top(h / 2)
         .angle(function(d) { return angle(totals[d]); })
         .outerRadius(function(c, d) { return radius(data[c].length);})
-        .fillStyle(pv.Colors.category19().by(function(d) { return d; }))
+        .fillStyle(color)
         .strokeStyle(function() { return this.fillStyle().darker();})
         .lineWidth(1)
         .event("mouseover", function(d, p) {

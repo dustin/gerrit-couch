@@ -34,7 +34,7 @@ function(me, args) {
     var w = $('#' + named).width();
     var h = w;
     var radius = pv.Scale.linear(0, collab_max).range(0, (w / 2));
-    var color = projectColorizer();
+    var color = projectColorizer(projects);
     var s = pv.Scale.linear(0, collab_max).range(0, 20);
     var legend_prefix = '#collaboration .legend';
 

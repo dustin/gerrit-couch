@@ -108,14 +108,22 @@ function showBarChart(named, data, total) {
 
 var colorMemo = {};
 
-function projectColorizer() {
+function projectColorizer(a) {
     var def = pv.Colors.category19().by(function(d) {return d;});
-    return function(x) {
+    function rv(x) {
         if (!colorMemo[x]) {
             colorMemo[x] = def(x);
         }
         return colorMemo[x];
     };
+
+    if (a) {
+        var elements = a.slice(0);
+        elements.sort();
+        elements.forEach(rv);
+    }
+
+    return rv;
 }
 
 function showStreamGraph(canv, legend_prefix, rows, color) {
@@ -136,7 +144,7 @@ function showStreamGraph(canv, legend_prefix, rows, color) {
     projects.sort();
 
     if (!color) {
-        color = projectColorizer();
+        color = projectColorizer(projects);
     }
 
     var dateList = rows.map(function(r) { return r.key[r.key.length-1]; });

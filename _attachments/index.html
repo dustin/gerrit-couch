@@ -8,7 +8,7 @@
     <div id="items"></div>
 
     <div id="sidebar">
-      <div id="activity">
+      <div class="chart" id="activity">
         <h2>Daily Activity</h2>
         <div id="activitychart"></div>
         <div class="legend">
@@ -21,19 +21,23 @@
           <span class="change-restored">change-abandoned</span>
         </div>
       </div>
-      <div id="merges">
+      <div class="chart" id="merges">
         <h2>Daily Merges</h2>
         <div id="mergechart"></div>
         <div class="legend">
         </div>
       </div>
-      <div id="contributors">
-        <h2>Contributors</h2>
-        <div id="contributorchart"></div>
+      <div class="chart" id="collaboration">
+        <h2>Collaboration</h2>
+        <p>
+          Where we show how many people are offering to love to each
+          of our various projects.
+        </p>
+        <div id="collaborationchart"></div>
         <div class="legend">
         </div>
       </div>
-      <div id="mergeattempts">
+      <div class="chart" id="mergeattempts">
         <h2>Patch by Merge Attempt</h2>
         <p>
           How many tries does it take us to get a changeset right?

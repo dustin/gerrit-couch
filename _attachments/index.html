@@ -37,13 +37,6 @@
         <div class="legend">
         </div>
       </div>
-      <div class="chart" id="mergeattempts">
-        <h2>Patch by Merge Attempt</h2>
-        <p>
-          How many tries does it take us to get a changeset right?
-        </p>
-        <div id="mergeattempt"></div>
-      </div>
     </div>
     <div id="footer">
       This data comes from our
@@ -57,8 +50,7 @@
     $.couch.app(function(app) {
       $("#items").evently("items", app);
       $(window).resize(function() {
-        $("#mergeattempt").evently("mergeattempt", app);
-        $("#activitychart").evently("activity", app);
+        updateViews(app);
       });
       refreshTimestamps();
     });

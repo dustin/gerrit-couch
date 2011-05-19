@@ -168,4 +168,10 @@ function updateViews(app) {
     $("#activitychart").evently("activity", app);
     $("#mergechart").evently("merges", app);
     $("#collaborationchart").evently("collaboration", app);
+    $("#activity").show();
+    $("#merges").show();
+    $("#collaboration").show();
+
+    $("#loading").hide();
+    $("#footer").show();
 }

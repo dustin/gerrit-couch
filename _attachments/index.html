@@ -38,6 +38,9 @@
         </div>
       </div>
     </div>
+    <div id="loading">
+      Loading data...
+    </div>
     <div id="footer">
       This data comes from our
       <a href="http://review.membase.org/">code review</a> site.
@@ -48,7 +51,7 @@
   <script src="js/protovis-r3.2.js"></script>
   <script type="text/javascript" charset="utf-8">
     $.couch.app(function(app) {
-      $("#items").evently("items", app);
+      setTimeout(function() { $("#items").evently("items", app); }, 100);
       $(window).resize(function() {
         updateViews(app);
       });

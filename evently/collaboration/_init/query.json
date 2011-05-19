@@ -1,6 +1,5 @@
 {
     "view": "contributor",
-    "group": "true",
     "reduce": "true",
     "group_level": 1
 }

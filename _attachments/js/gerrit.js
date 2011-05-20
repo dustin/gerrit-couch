@@ -55,6 +55,10 @@ function projectColorizer(a) {
     return rv;
 }
 
+function projectToClass(n) {
+    return n.replace(/\//g, '-');
+}
+
 function showStreamGraph(canv, legend_prefix, rows, color) {
     var projects = [];
     var dateMap = {};
@@ -119,10 +123,10 @@ function showStreamGraph(canv, legend_prefix, rows, color) {
             return y(rv);})
         .layer.add(pv.Area)
         .event("mouseover", function(d, p) {
-            $(legend_prefix + " ." + p).addClass("highlit");
+            $(legend_prefix + " ." + projectToClass(p)).addClass("highlit");
         })
         .event("mouseout", function(d, p) {
-            $(legend_prefix + " ." + p).removeClass("highlit");
+            $(legend_prefix + " ." + projectToClass(p)).removeClass("highlit");
         })
         .cursor("pointer")
         .fillStyle(function(d, p) { return color(p); })
@@ -149,7 +153,7 @@ function showStreamGraph(canv, legend_prefix, rows, color) {
         if (color(k).color) {
             style = "style='color: " + color(k).color + "'";
         }
-        $(legend_prefix).append("<span class='" + k + "' " + style + ">" +
+        $(legend_prefix).append("<span class='" + projectToClass(k) + "' " + style + ">" +
                                 k + "(" + val + ")</span> ");
     });
 }

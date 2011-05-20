@@ -52,10 +52,10 @@ function(me, args) {
         .strokeStyle(function() { return this.fillStyle().darker();})
         .lineWidth(1)
         .event("mouseover", function(d, p) {
-            $(legend_prefix + " ." + d).addClass("highlit");
+            $(legend_prefix + " ." + projectToClass(d)).addClass("highlit");
         })
         .event("mouseout", function(d, p) {
-            $(legend_prefix + " ." + d).removeClass("highlit");
+            $(legend_prefix + " ." + projectToClass(d)).removeClass("highlit");
         });
 
     vis.render();
@@ -69,7 +69,7 @@ function(me, args) {
         if (color(k).color) {
             style = "style='color: " + color(k).color + "'";
         }
-        $(legend_prefix).append("<span class='" + k + "' " + style + ">" +
+        $(legend_prefix).append("<span class='" + projectToClass(k) + "' " + style + ">" +
                                 k + "(" + people +"p, " + changes  + "c)</span> ");
     });
 }

@@ -102,6 +102,7 @@ function showStreamGraph(canv, legend_prefix, rows, color) {
         .left(function(n) { return x(n); })
         .anchor("bottom").add(pv.Label)
         .textStyle("#aaa")
+        .visible(function(d) { return d == Math.ceil(d); })
         .text(function(d) {
             var a = dateList[d].split('-');
             return parseInt(a[1]) + '-' + parseInt(a[2]);

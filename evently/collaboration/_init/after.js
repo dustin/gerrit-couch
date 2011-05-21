@@ -43,7 +43,7 @@ function(me, args) {
         .width(w)
         .height(h)
       .add(pv.Wedge)
-        .data(function(d) { return projects;})
+        .data(projects)
         .left(w / 2)
         .top(h / 2)
         .angle(function(d) { return angle(totals[d]); })

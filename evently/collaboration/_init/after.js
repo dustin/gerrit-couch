@@ -40,10 +40,29 @@ function(me, args) {
 
     var prev = 0;
     var angles = {};
+    var collab_levels = [];
+    // Initialize collab_levels -- map skips undefined vals.  :(
+    for (var i = 0; i < collab_max; ++i) { collab_levels.push(0); }
     projects.forEach(function(p) {
         var a = angle(totals[p]);
         angles[p] = [prev, prev + a];
+        collab_levels[data[p].length] = Math.max(totals[p] + (collab_levels[data[p].length] || 0));
         prev += a;
+    });
+
+    // Index the collaboration levels and remove 0 (since that's not helpful)
+    collab_levels = collab_levels.map(function(a, i) { return [i, a || 0, a || 0]; }).slice(1);
+    // Accumulate collaboration levels with the ones below
+    for (var i = 0; i < collab_levels.length; ++i) {
+        for (var j = i - 1; j >= 0; --j) {
+            collab_levels[j][1] += collab_levels[i][1];
+        }
+    }
+    prev = 0;
+    var collab_angles = collab_levels.map(function(l) {
+        var rv = [l[0], prev, prev + l[1]];
+        prev += l[2];
+        return rv;
     });
 
     $('#' + named).empty(); // Haven't quite figured out how to do this with D3
@@ -59,9 +78,21 @@ function(me, args) {
         .endAngle(function(d) { return angles[d][1]; })
         .outerRadius(function(c, d) { return radius(data[c].length);});
 
-    vis.selectAll("path")
+    var arcLines = d3.svg.arc()
+        .startAngle(function(d, p) { return angle(d[1]); })
+        .endAngle(function(d, p) { return angle(d[2]); })
+        .outerRadius(function(d, p) { return radius(d[0]);});
+
+    vis.selectAll(".lines")
+        .data(collab_angles)
+      .enter().append("svg:path")
+        .attr("class", "lines")
+        .attr("d", arcLines);
+
+    vis.selectAll(".slices")
         .data(projects)
       .enter().append("svg:path")
+        .attr("class", "slices")
         .attr("d", arc)
         .attr('fill', function(p) { return color(p); })
         .on('mouseover', function(d, p) {

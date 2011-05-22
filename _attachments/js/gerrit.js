@@ -127,8 +127,12 @@ function showStreamGraph(canv, legend_prefix, rows, color) {
         .attr("dy", ".35em")
         .attr("text-anchor", "end")
         .text(function(d) {
-            var a = keys[d].split('-');
-            return parseInt(a[1]) + '-' + parseInt(a[2]);});
+            if (keys[d]) {
+                var a = keys[d].split('-');
+                return parseInt(a[1]) + '-' + parseInt(a[2]);
+            } else {
+                return '';
+            }});
 
     vis.selectAll(".ylabel")
         .data(y.ticks(4))

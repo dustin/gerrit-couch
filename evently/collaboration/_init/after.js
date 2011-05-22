@@ -29,36 +29,47 @@ function(me, args) {
         }
     });
 
-    var angle = pv.Scale.linear(0, total).range(0, Math.PI * 2);
+    var angle = d3.scale.linear().domain([0, total]).range([0, Math.PI * 2]);
     var named = 'collaborationchart';
     var w = $('#' + named).width();
     var h = w;
-    var radius = pv.Scale.linear(0, collab_max).range(0, (w / 2));
+    var radius = d3.scale.linear().domain([0, collab_max]).range([0, (w / 2)]);
     var color = projectColorizer(projects);
-    var s = pv.Scale.linear(0, collab_max).range(0, 20);
+    var s = d3.scale.linear().domain([0, collab_max]).range([0, 20]);
     var legend_prefix = '#collaboration .legend';
 
-    var vis = new pv.Panel()
-        .canvas(named)
-        .width(w)
-        .height(h)
-      .add(pv.Wedge)
+    var prev = 0;
+    var angles = {};
+    projects.forEach(function(p) {
+        var a = angle(totals[p]);
+        angles[p] = [prev, prev + a];
+        prev += a;
+    });
+
+    $('#' + named).empty(); // Haven't quite figured out how to do this with D3
+    var vis = d3.select('#' + named)
+        .append("svg:svg")
+        .attr("width", w)
+        .attr("height", h)
+      .append("svg:g")
+        .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")");
+
+    var arc = d3.svg.arc()
+        .startAngle(function(d) { return angles[d][0]; })
+        .endAngle(function(d) { return angles[d][1]; })
+        .outerRadius(function(c, d) { return radius(data[c].length);});
+
+    vis.selectAll("path")
         .data(projects)
-        .left(w / 2)
-        .top(h / 2)
-        .angle(function(d) { return angle(totals[d]); })
-        .outerRadius(function(c, d) { return radius(data[c].length);})
-        .fillStyle(color)
-        .strokeStyle(function() { return this.fillStyle().darker();})
-        .lineWidth(1)
-        .event("mouseover", function(d, p) {
+      .enter().append("svg:path")
+        .attr("d", arc)
+        .attr('fill', function(p) { return color(p); })
+        .on('mouseover', function(d, p) {
             $(legend_prefix + " ." + projectToClass(d)).addClass("highlit");
         })
-        .event("mouseout", function(d, p) {
+        .on('mouseout', function(d, p) {
             $(legend_prefix + " ." + projectToClass(d)).removeClass("highlit");
         });
-
-    vis.render();
 
     // Update the legend
     $(legend_prefix).empty();

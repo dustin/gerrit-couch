@@ -65,10 +65,7 @@ function(me, args) {
     projects.reverse();
     projects.forEach(function(k) {
         var people = data[k].length, changes = totals[k];
-        var style = "";
-        if (color(k).color) {
-            style = "style='color: " + color(k).color + "'";
-        }
+        var style = "style='color: " + color(k) + "'";
         $(legend_prefix).append("<span class='" + projectToClass(k) + "' " + style + ">" +
                                 k + "(" + people +"p, " + changes  + "c)</span> ");
     });

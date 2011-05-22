@@ -38,7 +38,7 @@ function myPretty(ts) {
 var colorMemo = {};
 
 function projectColorizer(a) {
-    var def = pv.Colors.category19().by(function(d) {return d;});
+    var def = d3.scale.category20b();
     function rv(x) {
         if (!colorMemo[x]) {
             colorMemo[x] = def(x);
@@ -62,7 +62,6 @@ function projectToClass(n) {
 function showStreamGraph(canv, legend_prefix, rows, color) {
     var projects = [];
     var dateMap = {};
-    var ymax = 0;
     rows.forEach((function(r) {
         var sum = 0;
         dateMap[r.key[r.key.length-1]] = r.value;
@@ -72,87 +71,94 @@ function showStreamGraph(canv, legend_prefix, rows, color) {
             }
             sum += r.value[k];
         }
-        ymax = Math.max(sum, ymax);
     }));
     projects.sort();
+
+    var keys = rows.map(function(r) { return r.key[r.key.length - 1]; });
+    var values = projects.map(function(p) {
+        return rows.map(function(r) {
+            return r.value[p] || 0;
+        }).map(function(d, i) {
+            return { x: i, y: d};
+        });});
+    var data = d3.layout.stack().offset("wiggle")(values);
+
+    var ymax = d3.max(data, function(d) {
+        return d3.max(d, function(d) {
+            return d.y0 + d.y;
+        });
+    });
 
     if (!color) {
         color = projectColorizer(projects);
     }
 
-    var dateList = rows.map(function(r) { return r.key[r.key.length-1]; });
-
     /* Sizing and scales. */
     var w = $('#merges').width() - 40,
         h = 150,
-        x = pv.Scale.linear(0, dateList.length - 1).range(0, w),
-        y = pv.Scale.linear(0, ymax).range(0, h);
+        lmargin = 20, bmargin = 15,
+        uh = h - bmargin; // usable height
 
-    /* The root panel. */
-    var vis = new pv.Panel()
-        .canvas(canv)
-        .width(w)
-        .height(h)
-        .bottom(20)
-        .left(20)
-        .right(10)
-        .top(5);
+    var area = d3.svg.area()
+        .x(function(d, p) { return p * w / keys.length + lmargin; })
+        .y0(function(d, p) { return uh - d.y0 * uh / ymax; })
+        .y1(function(d, p) { return uh - (d.y + d.y0) * uh / ymax; });
 
-    /* X-axis and ticks. */
-    vis.add(pv.Rule)
-        .data(x.ticks())
-        .bottom(-5)
-        .height(0)
-        .left(function(n) { return x(n); })
-        .anchor("bottom").add(pv.Label)
-        .textStyle("#aaa")
-        .visible(function(d) { return d == Math.ceil(d); })
+    $('#' + canv).empty(); // Haven't quite figured out how to do this with D3
+    var vis = d3.select('#' + canv)
+        .append("svg:svg")
+        .attr("width", w)
+        .attr("height", h);
+
+    var x = d3.scale.linear()
+        .domain([0, keys.length - 1])
+        .range([0, w]);
+    var y = d3.scale.linear()
+        .domain([0, ymax])
+        .range([uh, 0]);
+
+    vis.selectAll(".xlabel")
+        .data(x.ticks(4))
+      .enter().append("svg:text")
+        .attr('class', "xlabel")
+        .attr("x", x)
+        .attr("y", uh)
+        .attr("dx", -3)
+        .attr("dy", ".35em")
+        .attr("text-anchor", "end")
         .text(function(d) {
-            var a = dateList[d].split('-');
-            return parseInt(a[1]) + '-' + parseInt(a[2]);
+            var a = keys[d].split('-');
+            return parseInt(a[1]) + '-' + parseInt(a[2]);});
+
+    vis.selectAll(".ylabel")
+        .data(y.ticks(4))
+      .enter().append("svg:text")
+        .attr('class', "ylabel")
+        .attr("x", lmargin)
+        .attr("y", y)
+        .attr("dx", -3)
+        .attr("dy", ".35em")
+        .attr("text-anchor", "end")
+        .text(function(d) { return d > 0 ? String(d) : ""; });
+
+    vis.selectAll("path")
+        .data(data)
+      .enter().append("svg:path")
+        .attr("fill", function(d, p) { return color(projects[p]); })
+        .attr("d", area)
+        .on("mouseover", function(d, p) {
+            $(legend_prefix + " ." + projectToClass(projects[p])).addClass("highlit");
+        })
+        .on("mouseout", function(d, p) {
+            $(legend_prefix + " ." + projectToClass(projects[p])).removeClass("highlit");
         });
 
-    vis.add(pv.Layout.Stack)
-        .offset("wiggle")
-        .layers(projects)
-        .values(dateList)
-        .order("inside-out")
-        .x(function(d) { return x(dateList.indexOf(d));})
-        .y(function(d, p) {
-            var rv = (dateMap[d] || {})[p] || 0;
-            return y(rv);})
-        .layer.add(pv.Area)
-        .event("mouseover", function(d, p) {
-            $(legend_prefix + " ." + projectToClass(p)).addClass("highlit");
-        })
-        .event("mouseout", function(d, p) {
-            $(legend_prefix + " ." + projectToClass(p)).removeClass("highlit");
-        })
-        .cursor("pointer")
-        .fillStyle(function(d, p) { return color(p); })
-        .strokeStyle(function() { return this.fillStyle().alpha(.5);});
-
-    /* Y-axis and ticks. */
-    vis.add(pv.Rule)
-        .data(y.ticks(3))
-        .visible(function() { return this.index > 0; })
-        .bottom(y)
-        .strokeStyle("rgba(128,128,128,0)")
-        .anchor("left").add(pv.Label)
-        .textStyle("#aaa")
-        .text(y.tickFormat);
-
-    vis.render();
-
     // Update the legend
-    var mostRecent = dateMap[dateList[dateList.length - 1]];
+    var mostRecent = dateMap[keys[keys.length - 1]];
     $(legend_prefix).empty();
     projects.forEach(function(k) {
         var val = mostRecent[k] || 0;
-        var style = "";
-        if (color(k).color) {
-            style = "style='color: " + color(k).color + "'";
-        }
+        var style = "style='color: " + color(k) + "'";
         $(legend_prefix).append("<span class='" + projectToClass(k) + "' " + style + ">" +
                                 k + "(" + val + ")</span> ");
     });

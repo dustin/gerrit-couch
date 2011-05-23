@@ -1,10 +1,14 @@
 @import "compass/reset"
 
+$text: #666
+$mediumtext: #aaa
+$lighttext: #ccc
+
 body
   font-family: "Helvetica"
 
 h1, h2
-  color: #666
+  color: $mediumtext
   text-align: right
 
 h1
@@ -14,6 +18,9 @@ h1
 h2
   font-size: 1.5em
   margin-bottom: 0.75em
+
+p
+  color: $mediumtext
 
 #items
   background: #eee
@@ -32,16 +39,16 @@ h2
 
   .timestamp
     font-size: small
-    color: #ccc
+    color: $lighttext
 
   .extra-detail
     font-size: x-small
     text-align: right
-    color: #aaa
+    color: $mediumtext
 
   .approvals
     font-size: small
-    border: solid 1px #ccc
+    border: solid 1px $lighttext
     display: inline
     padding: 2px 1px 0 0
 
@@ -61,7 +68,7 @@ h2
     padding: 4px
 
     text
-      fill: #aaa
+      fill: $mediumtext
       font: 10px sans-serif
 
     .legend
@@ -89,8 +96,13 @@ h2
   display: none
   clear: both
   font-size: small
-  border-top: solid black 1px
+  border-top: solid $lighttext 1px
   padding: 2px
+  color: $lighttext
+
+  a
+    color: $lighttext
+    text-decoration: underline
 
 .ref-updated
   color: #ECD078

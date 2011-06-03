@@ -1,7 +1,0 @@
-{
-    "view": "by-activity",
-    "group_level": 3,
-    "reduce": "true",
-    "startkey": ["change-merged"],
-    "endkey": ["change-merged", {}]
-}

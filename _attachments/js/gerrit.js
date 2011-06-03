@@ -179,14 +179,22 @@ function updateTimestamps(app) {
     });
 }
 
-function updateViews(app) {
-    $("#activitychart").evently("activity", app);
-    $("#mergechart").evently("merges", app);
-    $("#collaborationchart").evently("collaboration", app);
-    $("#activity").show();
-    $("#merges").show();
-    $("#collaboration").show();
+var pendingViewUpdate = undefined;
 
-    $("#loading").hide();
-    $("#footer").show();
+function updateViews(app) {
+    if (!pendingViewUpdate) {
+        pendingViewUpdate = setTimeout(function() {
+            $("#activitychart").evently("activity", app);
+            $("#mergechart").evently("merges", app);
+            $("#collaborationchart").evently("collaboration", app);
+            $("#activity").show();
+            $("#merges").show();
+            $("#collaboration").show();
+
+            $("#loading").hide();
+            $("#footer").show();
+
+            pendingViewUpdate = undefined;
+        }, 100);
+    }
 }

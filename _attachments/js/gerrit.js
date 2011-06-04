@@ -59,7 +59,7 @@ function projectToClass(n) {
     return n.replace(/\//g, '-');
 }
 
-function showStreamGraph(canv, legend_prefix, rows, color) {
+function showStreamGraph(canv, legend_prefix, rows, color, clickHandler) {
     var projects = [];
     var dateMap = {};
     rows.forEach((function(r) {
@@ -150,6 +150,9 @@ function showStreamGraph(canv, legend_prefix, rows, color) {
       .enter().append("svg:path")
         .attr("fill", function(d, p) { return color(projects[p]); })
         .attr("d", area)
+        .on("click", function(d, p) {
+            clickHandler(projects[p]);
+        })
         .on("mouseover", function(d, p) {
             $(legend_prefix + " ." + projectToClass(projects[p])).addClass("highlit");
         })
@@ -199,8 +202,15 @@ function showActivityChart(app) {
                           success: function(r) {
                               showStreamGraph('activitychart',
                                               '#activity .legend', r.rows,
-                                              function(d) { return colors[d]; });
+                                              function(d) { return colors[d]; },
+                                             function() {});
                           }});
+}
+
+function gotoProject(projectName) {
+    window.history.pushState(projectName);
+    window.location.hash = projectName;
+    window.location.reload(true);
 }
 
 function drawCollaborationChart(rows) {
@@ -300,6 +310,9 @@ function drawCollaborationChart(rows) {
         .attr("class", "slices")
         .attr("d", arc)
         .attr('fill', function(p) { return color(p); })
+        .on('click', function(d, p) {
+            gotoProject(d);
+        })
         .on('mouseover', function(d, p) {
             $(legend_prefix + " ." + projectToClass(d)).addClass("highlit");
         })
@@ -341,7 +354,7 @@ function showMergeChart(app) {
                                      }
                                      data[offset].value[r.key[2]] = r.value;
                                  });
-                                 showStreamGraph('mergechart', "#merges .legend", data);
+                                 showStreamGraph('mergechart', "#merges .legend", data, null, gotoProject);
                              }});
 }
 
@@ -355,4 +368,8 @@ function updateViews(app) {
 
     $("#loading").hide();
     $("#footer").show();
+
+    window.onpopstate = function(event) {
+        window.location.reload(true);
+    };
 }

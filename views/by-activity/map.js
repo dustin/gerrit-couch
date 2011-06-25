@@ -3,5 +3,7 @@ function(doc) {
     if (doc.change) {
         branch = doc.change.branch;
     }
-    emit([doc.type, doc.ts.split('T')[0], doc.project, branch], 1);
+    if (!doc.ignored) {
+        emit([doc.type, doc.ts.split('T')[0], doc.project, branch], 1);
+    }
 }

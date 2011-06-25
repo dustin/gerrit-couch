@@ -1,5 +1,5 @@
 function(doc) {
-    if (doc.ts) {
+    if (doc.ts && !doc.ignored) {
         var ob = {};
         ob[doc.type] = 1;
         var branch = '';

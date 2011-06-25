@@ -203,7 +203,7 @@ function showActivityChart(app) {
                               showStreamGraph('activitychart',
                                               '#activity .legend', r.rows,
                                               function(d) { return colors[d]; },
-                                             function() {});
+                                              function() {});
                           }});
 }
 

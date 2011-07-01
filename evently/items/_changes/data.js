@@ -61,7 +61,20 @@ function(data) {
         return d;
     });
 
+        var seenUsers = { };
+    var users = [ ];
+    data.rows.forEach(function(r) {
+        var d = r.doc;
+        if (!seenUsers[d.actor.email]) {
+            seenUsers[d.actor.email] = true;
+
+            var user = d.actor;
+            user.url = gravatarURL(d.actor.email, 32);
+            users.push(user);
+        }
+    });
+
     return {
-        items: items, jsonified: JSON.stringify(items)
+        items: items, users: users, jsonified: JSON.stringify(items)
     };
 };

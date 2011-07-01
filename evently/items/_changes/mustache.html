@@ -1,4 +1,9 @@
-<h1>Recent Activity</h1>
+<h1>
+  {{#users}}
+    <img width="32" height="32" src="{{img}}" class="gravatar" alt="{{email}}"/>
+  {{/users}}
+  Recent Activity
+</h1>
 <ul>
   {{#items}}
     <li>

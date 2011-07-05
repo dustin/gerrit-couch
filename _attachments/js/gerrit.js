@@ -82,8 +82,8 @@ function showStreamGraph(canv, legend_prefix, rows, color, clickHandler) {
     var data = d3.layout.stack().offset("wiggle")(values);
 
     var ymax = d3.max(data, function(d) {
-        return d3.max(d, function(d) {
-            return d.y0 + d.y;
+        return d3.max(d, function(di) {
+            return di.y0 + di.y;
         });
     });
 

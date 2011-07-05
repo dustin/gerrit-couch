@@ -63,13 +63,11 @@ function showStreamGraph(canv, legend_prefix, rows, color, clickHandler) {
     var projects = [];
     var dateMap = {};
     rows.forEach((function(r) {
-        var sum = 0;
         dateMap[r.key[r.key.length-1]] = r.value;
         for (var k in r.value) {
             if (projects.indexOf(k) == -1) {
                 projects.push(k);
             }
-            sum += r.value[k];
         }
     }));
     projects.sort();

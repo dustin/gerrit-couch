@@ -67,9 +67,10 @@ function $$(node) {
     },
     paths : [],
     changesDBs : {},
+    changesLastSeq : {},
     changesOpts : {}
   };
-  
+
   function extractFrom(name, evs) {
     return evs[name];
   };
@@ -288,10 +289,10 @@ function $$(node) {
         userSuccess && userSuccess(resp);
       };
       // $.log(app)
-      app.view(viewName, q);      
+      app.view(viewName, q);
     }
   }
-  
+
   // this is for the items handler
   // var lastViewId, highKey, inFlight;
   // this needs to key per elem
@@ -350,21 +351,41 @@ function $$(node) {
       app.view(view, opts);
     }
   };
-  
+
   // only start one changes listener per db
   function followChanges(app) {
     var dbName = app.db.name, changeEvent = function(resp) {
       $("body").trigger("evently-changes-"+dbName, [resp]);
+      $.evently.changesLastSeq[dbName] = resp.last_seq;
     };
     if (!$.evently.changesDBs[dbName]) {
-      if (app.db.changes) {
         // new api in jquery.couch.js 1.0
-        app.db.changes(null, $.evently.changesOpts).onChange(changeEvent);
-      } else {
-        // in case you are still on CouchDB 0.11 ;) deprecated.
-        connectToChanges(app, changeEvent);
-      }
-      $.evently.changesDBs[dbName] = true;
+        $.evently.changesDBs[dbName] = app.db.changes(null, $.evently.changesOpts);
+        $.evently.changesDBs[dbName].onChange(changeEvent);
+
+        app.db.info({success: function(dbi) {
+            $.evently.changesLastSeq[dbName] = dbi.update_seq;
+        }});
+
+        // Stop tracking changes when the user switches tabs.
+        $(document).bind('webkitvisibilitychange', function(e) {
+            if (document.webkitHidden) {
+                if ($.evently.changesDBs[dbName]) {
+                    console.log("Stopping feed of " + dbName +
+                                " at " + $.evently.changesLastSeq[dbName]);
+                    $.evently.changesDBs[dbName].stop();
+                    $.evently.changesDBs[dbName] = undefined;
+                }
+            } else {
+                if (!$.evently.changesDBs[dbName]) {
+                    console.log("Starting feed of " + dbName +
+                                " from " + $.evently.changesLastSeq[dbName]);
+                    $.evently.changesDBs[dbName] = app.db.changes($.evently.changesLastSeq[dbName],
+                                                                  $.evently.changesOpts);
+                    $.evently.changesDBs[dbName].onChange(changeEvent);
+                }
+            }
+        }, false);
     }
   }
   $.evently.followChanges = followChanges;

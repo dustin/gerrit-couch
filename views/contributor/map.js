@@ -7,9 +7,7 @@ function(doc) {
         return;
     }
     // Need to canonicalize the actor
-    var ob = {};
-    ob[doc.project] = 1;
     var actor = [doc.change.owner.name, doc.change.owner.name.split(' ')[0],
                  doc.change.owner.email];
-    emit([actor, doc.ts.split('T')[0]], ob);
+    emit([actor, doc.project], 1);
 }

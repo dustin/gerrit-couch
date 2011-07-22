@@ -211,30 +211,19 @@ function gotoProject(projectName) {
     window.location.reload(true);
 }
 
-function drawCollaborationChart(rows) {
-    var data = {}, totals = {}, projects = [];
+function drawCollaborationChart(counts) {
+    var projects = [];
     var ymax = 0, collab_max = 0, total = 0;
-    rows.forEach(function (r) {
-        for (var k in r.value) {
-            var ob = data[k] || [];
-            ob.push([r.key[0][1], r.value[k]]);
-            data[k] = ob;
-            r.value._total += r.value[k];
 
-            totals[k] = (totals[k] || 0) + r.value[k];
-            ymax = Math.max(ymax, totals[k]);
-            collab_max = Math.max(collab_max, data[k].length);
-
-            if (projects.indexOf(k) == -1) {
-                projects.push(k);
-            }
-        }
-    });
-    for (var k in totals) {
-        total += totals[k];
+    for (var project in counts) {
+        projects.push(project);
+        total += counts[project][1];
+        ymax = Math.max(ymax, counts[project][1]);
+        collab_max = Math.max(collab_max, counts[project][0]);
     }
+
     projects.sort(function(a, b) {
-        var al = data[a].length, bl = data[b].length;
+        var al = counts[a][0], bl = counts[b][0];
         if (al == bl) {
             return a > b ? -1 : 1;
         } else {
@@ -257,9 +246,9 @@ function drawCollaborationChart(rows) {
     // Initialize collab_levels -- map skips undefined vals.  :(
     for (var i = 0; i < collab_max; ++i) { collab_levels.push(0); }
     projects.forEach(function(p) {
-        var a = angle(totals[p]);
+        var a = angle(counts[p][1]);
         angles[p] = [prev, prev + a];
-        collab_levels[data[p].length] = Math.max(totals[p] + (collab_levels[data[p].length] || 0));
+        collab_levels[counts[p][0]] = Math.max(counts[p][1] + (collab_levels[counts[p][0]] || 0));
         prev += a;
     });
 
@@ -289,7 +278,7 @@ function drawCollaborationChart(rows) {
     var arc = d3.svg.arc()
         .startAngle(function(d) { return angles[d][0]; })
         .endAngle(function(d) { return angles[d][1]; })
-        .outerRadius(function(c, d) { return radius(data[c].length);});
+        .outerRadius(function(c, d) { return radius(counts[c][0]);});
 
     var arcLines = d3.svg.arc()
         .startAngle(function(d, p) { return angle(d[1]); })
@@ -322,7 +311,7 @@ function drawCollaborationChart(rows) {
     $(legend_prefix).empty();
     projects.reverse();
     projects.forEach(function(k) {
-        var people = data[k].length, changes = totals[k];
+        var people = counts[k][0], changes = counts[k][1];
         var style = "style='color: " + color(k) + "'";
         $(legend_prefix).append("<span class='" + projectToClass(k) + "' " + style + ">" +
                                 k + "(" + people +"p, " + changes  + "c)</span> ");
@@ -330,9 +319,19 @@ function drawCollaborationChart(rows) {
 }
 
 function showCollaborationChart(app) {
-    app.view('contributor', {reduce: true, group_level: 1,
-                             success: function(r) {
-                                 drawCollaborationChart(r.rows);
+    app.view('contributor', {reduce: true, group_level: 2,
+                             success: function(results) {
+                                 var counts = { };
+                                 results.rows.forEach(function(r) {
+                                     var ob = counts[r.key[1]];
+                                     if (!ob) {
+                                         ob = [0, 0];
+                                     }
+                                     ob[0] += 1;
+                                     ob[1] += r.value;
+                                     counts[r.key[1]] = ob;
+                                 });
+                                 drawCollaborationChart(counts);
                              }});
 }
 

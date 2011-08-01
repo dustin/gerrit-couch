@@ -3,14 +3,14 @@ function(data) {
     var app = $$(this).app;
     var md5 = app.require("vendor/couchapp/lib/md5");
 
-    function gravatarURL(email, size) {
-        return 'http://www.gravatar.com/avatar/' + md5.hex(email) +
+    function avatarURL(email, size) {
+        return 'http://cdn.libravatar.org/avatar/' + md5.hex(email) +
             '.jpg?s=' + size + "&d=retro";
     }
 
     var items = data.rows.map(function(r) {
         var d = r.doc;
-        d.actor.img = gravatarURL(d.actor.email, 32);
+        d.actor.img = avatarURL(d.actor.email, 32);
         if (d.change) {
             var commentParts = [];
             var approvals = [];
@@ -34,7 +34,7 @@ function(data) {
                 commentParts.push(d.comment);
             }
             d.extra = {
-                'img': {'url': gravatarURL(d.change.owner.email, 20),
+                'img': {'url': avatarURL(d.change.owner.email, 20),
                         'alt': d.change.owner.email,
                         'title': d.change.owner.name},
                 'comment': commentParts.join("\n"),
@@ -69,7 +69,7 @@ function(data) {
             seenUsers[d.actor.email] = true;
 
             var user = d.actor;
-            user.url = gravatarURL(d.actor.email, 32);
+            user.url = avatarURL(d.actor.email, 32);
             users.push(user);
         }
     });

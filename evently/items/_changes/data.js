@@ -4,7 +4,7 @@ function(data) {
     var md5 = app.require("vendor/couchapp/lib/md5");
 
     function avatarURL(email, size) {
-        var e = email || "nobody@nowhere.com";
+        var e = email || "github@couchbase.com";
         return 'http://cdn.libravatar.org/avatar/' + md5.hex(e) +
             '.jpg?s=' + size + "&d=retro";
     }

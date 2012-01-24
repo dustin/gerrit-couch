@@ -23,7 +23,7 @@ function(data) {
                     if (a.type == 'VRIF') {
                         approvals.push('<img alt="' + a.value + '"' +
                                        ' src="images/VRIF' +
-                                       (a.value > 0 ? "%2b" : "") + a.value + '.png"' +
+                                       (a.value > 0 ? "plus" : "minus") + Math.abs(a.value) + '.png"' +
                                       '/>');
                     } else if (a.type == 'CRVW') {
                         approvals.push('<span class="review ' + theClass + '">' +

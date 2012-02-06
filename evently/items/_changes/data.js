@@ -6,7 +6,7 @@ function(data) {
     function avatarURL(email, size) {
         var e = email || "github@couchbase.com";
         return 'http://cdn.libravatar.org/avatar/' + md5.hex(e) +
-            '.jpg?s=' + size + "&d=retro";
+            '.jpg?s=' + size + "&d=monsterid";
     }
 
     var items = data.rows.map(function(r) {

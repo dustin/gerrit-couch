@@ -180,6 +180,20 @@ function updateTimestamps(app) {
     });
 }
 
+function getGraphStartKey() {
+    function ten(x) {
+        if (x < 10) {
+            return "0" + x;
+        }
+        return "" + x;
+    }
+
+    var startDate = new Date(new Date() - (86400 * 1000 * 30 * 3));
+    var startkey = startDate.getFullYear() + "-" +
+        ten(startDate.getMonth() + 1) + ten(startDate.getDate());
+    return startkey;
+}
+
 function showActivityChart(app) {
     var types = [
         "patchset-created",
@@ -197,6 +211,7 @@ function showActivityChart(app) {
     }
 
     app.view('activity', {reduce: true, group_level: 1,
+                          startkey: [getGraphStartKey()],
                           success: function(r) {
                               showStreamGraph('activitychart',
                                               '#activity .legend', r.rows,
@@ -337,7 +352,8 @@ function showCollaborationChart(app) {
 
 function showMergeChart(app) {
     app.view('by-activity', {reduce: true, group_level: 3,
-                             startkey: ["change-merged"], endkey: ["change-merged", {}],
+                             startkey: ["change-merged", getGraphStartKey()],
+                             endkey: ["change-merged", {}],
                              success: function(r) {
                                  var data = [];
                                  var prev = undefined;
